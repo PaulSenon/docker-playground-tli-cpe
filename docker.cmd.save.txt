@@ -1,0 +1,11 @@
+docker network create mysql-network
+
+docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=1234 --name mysql-server --net=mysql-network mysql:5.7
+
+docker run --name phpmyadmin -d -e PMA_HOST=mysql-server -p 83:80 --net=mysql-network phpmyadmin/phpmyadmin
+
+docker build -t php7-custom-server .
+
+docker run -d -p 82:80 --net=mysql-network --name server-php-custom -v /home/tp/php-server/www:/var/www/html php7-custom-server
+
+
